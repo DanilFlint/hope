@@ -35,31 +35,40 @@ def solve_LU(lu_matrix, b):
         x[-i, 0] = (y[-i] - lu_matrix[-i, -i:] * x[-i:, 0] )/ lu_matrix[-i, -i]
     return x
 
-def lenear(a,b,x):
-    return a*x+b
+
+def squere(resolve,x):
+    max_degree = resolve.shape[0] - 1
+    res = 0
+    for i in range(max_degree+1):
+        res += resolve[i,0]*x**(max_degree-i)
+    return res
 
 if __name__ == '__main__':
-    X = np.array([i for i in range(1, 7)])  # Вектор X - значений
-    Y = np.array([1.0, 1.5, 3.0, 4.5, 7.0, 8.5])  # Вектор Y - значений
 
-    sum_X = X.sum() #Сумма элементов X
-    sum_X_sq = np.square(X).sum() #Сумма квадратов элементов X
+    N = 4  # Степень полинома
 
-    A = np.array([[sum_X_sq, sum_X],[sum_X, len(X)]]) #Матрица для решения СЛАУ и для LU разложения
+    X = np.array([i for i in range(1,7)])# Вектор X - значений
+    Y = np.array([1.0, 1.5, 3.0, 4.5, 7.0, 8.5])# Вектор Y - значений
 
-    Mul_X_Y = X * Y # Вектор произведений элементов X и Y
+    A = np.matrix(np.zeros([N+1, N+1])) #Матрица для решения СЛАУ и для LU разложения
+    for i in range(N+1):
+        for j in range(N+1):
+            degree = (2*N-j)-i
+            A[i,j] = (X**degree).sum()
 
-    B = np.matrix([[Mul_X_Y.sum()], [Y.sum()]]) #Сумма вектора произведений элементов X и Y
+    B = np.matrix(np.zeros([N + 1, 1])) # Сумма вектора произведений элементов X и Y
+    for i in range(N + 1):
+        degree = N - i
+        B[i, 0] = (X ** degree * Y).sum()
 
-    o = decompose_to_LU(A) #LU - разложение в одну матрицу
+    o = decompose_to_LU(A)  # LU - разложение в одну матрицу
 
-    L = get_L(o) # Получение нижнетреугольной матрицы L
-    U = get_U(o) # Получение верхнетреугольной матрицы U
+    Resolve = np.matrix(np.zeros([N + 1, 1])) #Вектор решений
 
-    a, b = solve_LU(o, B)
+    Resolve = solve_LU(o, B)
 
     x = np.arange(1, 7, 0.1)
     plt.scatter(X, Y)
-    plt.plot(x, lenear(a[0,0],b[0,0],x))
+    plt.plot(x, squere(Resolve, x))
 
     plt.show()
