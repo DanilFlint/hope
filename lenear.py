@@ -39,8 +39,8 @@ def lenear(a,b,x):
     return a*x+b
 
 if __name__ == '__main__':
-    X = np.array([i for i in range(1,7)])# Вектор X - значений
-    Y = np.array([1.0, 1.5, 3.0, 4.5, 7.0, 8.5])# Вектор Y - значений
+    X = np.array([i for i in range(1, 7)])  # Вектор X - значений
+    Y = np.array([1.0, 1.5, 3.0, 4.5, 7.0, 8.5])  # Вектор Y - значений
 
     sum_X = X.sum() #Сумма элементов X
     sum_X_sq = np.square(X).sum() #Сумма квадратов элементов X
