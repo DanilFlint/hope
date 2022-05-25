@@ -22,10 +22,12 @@ def read(path):
         array.append(s)
     return array
 
-
 def function(X, B):
     return np.dot(X,B) + X[:,1]**2
+
 def get_coord(X, B):
+
+    #Для получения координат необходимо решить квадратное уравнение
     D = (B[3]*X[:,1] + B[2])**2 - 4*B[4]*(B[1]*X[:,1] + X[:,1]**2 + B[0])
     Y1 =  np.array([[i] for i in (-(B[3]*X[:,1] + B[2]) - D**(1/2))/(2*B[4])])
     Y2 =  np.array([[i] for i in (-(B[3]*X[:,1] + B[2]) + D**(1/2))/(2*B[4])])
@@ -50,7 +52,7 @@ if __name__ == '__main__':
     mul = np.array([[i] for i in X[:,2]*X[:,2]]) # квадрат координат y
     X = np.concatenate((X, mul), axis=1)
 
-    B = regression(X, -(X[:,1]**2))
+    B = regression(X, (np.array([[i] for i in -X[:,1]**2])))
 
     R = function(X, B)
 
