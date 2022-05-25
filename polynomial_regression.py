@@ -1,11 +1,15 @@
-import matplotlib as mpl
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import matplotlib.pyplot as plt
+from LU import decompose_to_LU, solve_LU
 
 def regression(X,Y):
-    B = np.dot(np.dot(np.linalg.inv(np.dot(X.transpose(), X)), X.transpose()), Y)  # Формула линейной регрессии
-    return B
+    A = np.dot(X.transpose(), X)
+    b = np.dot(X.transpose(), Y)
+    # LU - разложение в одну матрицу
+    LU = decompose_to_LU(A)
+    # Вектор решений
+    B = solve_LU(LU, b)
+    return np.array(B)
 
 def function(X):
     res = X[:,1]**3 + np.sin(X[:,2])# На две влияющие величины
@@ -35,9 +39,12 @@ if __name__ == '__main__':
     solve_Y_lenear = solve_regression(X, B_lenear)[:,0]
     solve_Y_polynomical = solve_regression(X_poly, B_polynomical)[:,0]
 
-
     print("Матрица наблюдений:")
     for i in X:
+        print(i)
+
+    print("Матрица наблюдений + добавленные переменные для полиномиализации:")
+    for i in X_poly:
         print(i)
 
     print("Столбец значений:")
