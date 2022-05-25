@@ -58,9 +58,20 @@ if __name__ == '__main__':
 
     ans = get_coord(X,B)
 
+    sum_incline = 0
+    for i in (ans[732:,0] - X[:,1]):
+        if not np.isnan(i):
+            sum_incline+=i**2
+    #print("Сумма квадратов разности : ", sum_incline)
+
+    print("Вычисленные параметры: ")
+    print(B)
+
     fig = plt.figure('Орбита астероида 9162 Kwiila (1987 OA)')
-    plt.plot(X[:,1], X[:,2], label='Орбита астероида 9162 Kwiila (1987 OA)')
-    plt.plot(ans[:,0], ans[:,1])
+    plt.plot(X[:,1], X[:,2], label='Орбита астероида 9162 Kwiila (1987 OA)', lw=4)
+    plt.plot(ans[:,0], ans[:,1], label='Вычисленная орбита астероида 9162 Kwiila (1987 OA)')
     plt.legend()
+
+
 
     plt.show()

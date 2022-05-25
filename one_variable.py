@@ -11,7 +11,7 @@ def function(resolve,x):
 
 if __name__ == '__main__':
     # Степень полинома
-    N = 1
+    N = 5
 
     # Вектор X - значений
     X = np.array([i for i in range(1,7)])
@@ -38,8 +38,16 @@ if __name__ == '__main__':
     # Вектор решений
     Resolve = solve_LU(LU, B)
 
-    x = np.arange(1, 7, 0.1)
+    print("Столбец значений:")
+    for i in Y:
+        print(i)
+    Y2 = function(Resolve, X)
+
+    incline = ((Y2 - Y) ** 2)
+    print("Вектор квадратов разности : ", incline)
+    print("Сумма квадратов разности : ", incline.sum())
+
     plt.scatter(X, Y)
-    plt.plot(x, function(Resolve, x))
+    plt.plot(X, Y2)
 
     plt.show()
