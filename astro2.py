@@ -24,7 +24,7 @@ def read(path):
     return array
 
 def function(X, B):
-    return B[0] + B[1]*X[:,1]+B[2]*X[:,2]+B[3]*X[:,3]+B[4]*X[:,4]
+    return B[0] + B[1]*X[:,1]+B[2]*X[:,2]
 def get_coord(X, B):
 
     #Для получения координат необходимо решить квадратное уравнение
@@ -46,8 +46,8 @@ if __name__ == '__main__':
     #X = np.array([coords[:,0], coords[:,1]])
     X = np.concatenate((np.ones((coords.shape[0], 1)), coords), axis=1)  # Матрицана влияющих величин с единицами
 
-    noise_X = np.array([random.uniform(-1, 1) for i in range(X.shape[0])])#Шум по X
-    noise_Y = np.array([random.uniform(-1, 1) for i in range(X.shape[0])])#Шум по Y
+    noise_X = np.array([random.uniform(-1, 1) for i in range(X.shape[0])])
+    noise_Y = np.array([random.uniform(-1, 1) for i in range(X.shape[0])])
 
     dis_X = np.amax(abs(noise_X))/abs(np.amax(abs(X[:, 1])))*100
     dis_Y = np.amax(abs(noise_Y))/abs(np.amax(abs(X[:, 2])))*100
@@ -58,44 +58,22 @@ if __name__ == '__main__':
     print(dis_X)
     print(dis_Y)
 
-    mul = np.array([[i] for i in X[:,1]*X[:,2]])# произведение координат x и y
-    X = np.concatenate((X, mul), axis=1)
-
-    mul = np.array([[i] for i in X[:,2]*X[:,2]]) # квадрат координат y
-    X = np.concatenate((X, mul), axis=1)
-
     B = regression(X, (np.array([[i] for i in -X[:,1]**2])))
 
     R = function(X, B)
 
-    ans = get_coord(X,B)
-
-    sum_incline = 0
-    for i in (ans[732:,0] - X[:,1]):
-        if not np.isnan(i):
-            sum_incline+=i**2
-    #print("Сумма квадратов разности : ", sum_incline)
-
     print("Вычисленные параметры: ")
     print(B)
 
-    #Вывод 2Д графика
-    fig = plt.figure('Орбита астероида 9162 Kwiila (1987 OA)')
-    plt.scatter(X[:,1], X[:,2], label='Орбита астероида 9162 Kwiila (1987 OA)', s=1)
-    plt.scatter(ans[:,0], ans[:,1], label='Вычисленная орбита астероида 9162 Kwiila (1987 OA)', s=1)
-    plt.legend()
-
-    solve_Y_lenear = function(X,B)
+    solve_Y = function(X,B)
 
     x = np.arange(1, X.shape[0] + 1, 1)
 
-
-    #Вывод графика
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     theta = np.linspace(-50000 * np.pi, 50000 * np.pi, 10000000)
     ax.scatter(X[:,1], X[:,2], -X[:,1]**2, label='Экспериментальные данные',s=0.7)
-    ax.scatter(X[:,1], X[:,2], solve_Y_lenear, label='Вычисленные данные',s=0.7)
+    ax.scatter(X[:,1], X[:,2], solve_Y, label='Вычисленные данные',s=0.7)
     ax.legend()
 
     plt.show()

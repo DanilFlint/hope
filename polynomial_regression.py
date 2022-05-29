@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from LU import decompose_to_LU, solve_LU
+import random
 
 def regression(X,Y):
     A = np.dot(X.transpose(), X)
