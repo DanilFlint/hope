@@ -100,7 +100,7 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     ax.scatter(plane_matrix[:, 1], ellipse_matrix[:, 2], coords_Z, label='Экспериментальные данные', s=0.7)
-    ax.scatter(ans[:, 0], ellipse_matrix[:, 2], ans_plate, label='Вычисленные данные',s=0.7)
+    ax.scatter(ans[:, 0], ans[:, 1], ans_plate, label='Вычисленные данные',s=0.7)
     ax.legend()
 
     plt.show()
